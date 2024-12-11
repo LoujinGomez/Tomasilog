@@ -37,4 +37,8 @@ class PageController extends Controller
     public function userprofile(){
         return view('profile/userprofile');
     }
+
+    public function trashedFoodMenu(){
+        return view('trashedFoodMenu');
+    }
 }

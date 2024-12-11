@@ -50,28 +50,37 @@
         .navbar-login a:hover {
             background-color: #ac6947;
         }
-        .section {
+        .sec {
             padding: 50px;
             text-align: center;
             min-height: 300px;
         }
-
+        .section {
+            padding: 50px;
+            display: flex; /* Flex layout for horizontal alignment */
+            justify-content: space-between; /* Space between the main content and summary */
+            align-items: flex-start; /* Align items at the top */
+            gap: 20px;
+            text-align: left; /* Align text inside the container */
+        }
         .section-container {
-            text-align: center;
-            padding: 50px 20px;
+            flex: 2; /* Allocate more space to the menu section */
+            max-width: 70%; /* Prevent it from stretching too wide */
+            text-align: left; /* Align text to the left */
+            padding: 0 20px; /* Adjust padding for better alignment */
         }
 
-        .section-title {
-            margin-bottom: 20px;
+        .section-container h1 {
+            margin-bottom: 10px;
+            font-size: 2.5rem; /* Ensure consistency in header size */
         }
-
+        
         .product-container {
             display: flex;
             gap: 20px;
             justify-content: center;
             flex-wrap: wrap;
         }
-
         .product-card {
             background-color: #ECDFCC;
             border-radius: 15px;
@@ -81,7 +90,6 @@
             padding: 15px;
             position: relative;
         }
-
         .circle-container {
             width: 150px;
             height: 150px;
@@ -90,33 +98,27 @@
             margin: 0 auto;
             border: 2px solid #ccc;
         }
-
         .circle-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .product-details {
             margin-top: 15px;
         }
-
         .product-details h3 {
             font-size: 1.2em;
             margin: 10px 0 5px;
         }
-
         .product-details p {
             font-size: 0.9em;
             color: #666;
         }
-
         .product-price {
             font-size: 1.1em;
             font-weight: bold;
             margin-top: 10px;
         }
-
         .buy-button {
             display: inline-block;
             background-color: #DA8359;
@@ -126,12 +128,51 @@
             text-decoration: none;
             font-size: 1em;
             border: none;
+            cursor: pointer;
         }
-
         .buy-button:hover {
             background-color: #ac6947;
         }
+        .order-summary {
+            flex: 1; /* Take up less space */
+            align-self: flex-start; /* Align to the top */
+            background-color: #F9F5F1;
+            padding: 20px;
+            border: 1px solid #DDD;
+            border-radius: 10px;
+            max-width: 350px;
+            height: fit-content;
+            text-align: left; /* Align text inside the summary */
+        }
 
+        .order-summary h3 {
+            margin-top: 0; /* Remove unnecessary margins */
+            font-size: 1.8rem;
+        }
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .total-price {
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .checkout-btn {
+            display: block;
+            background-color: #DA8359;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            margin-top: 10px;
+        }
+        .checkout-btn:hover {
+            background-color: #ac6947;
+        }
         footer h5 {
             font-family: "Faculty Glyphic", serif;
             font-size: 1.2em;
@@ -148,8 +189,8 @@
         }
 
         footer .email-input {
-            width: calc(100% - 100px); 
-            display: inline-block; 
+            width: calc(100% - 100px); /* Adjust width to account for the button */
+            display: inline-block; /* Align the input and button inline */
         }
 
         footer form {
@@ -176,14 +217,13 @@
         }
 
         footer .col-md-4 h5 {
-            text-align: center; /* Ensure the heading is left-aligned */
+            text-align: left; /* Ensure the heading is left-aligned */
             margin-bottom: 15px; /* Maintain spacing below the heading */
         }
-
     </style>
 </head>
 <body>
-    <div class="section">
+    <div class="sec">
         <!-- Navbar -->
         <div class="navbar">
             <div class="navbar-logo">Tomasilog</div>
@@ -191,89 +231,53 @@
                 <a href="{{ route('welcome') }}">Home</a>
                 <a href="{{ route('about') }}">About</a>
                 <a href="{{ route('menu') }}">Menu</a>
+                <a href="#history">History</a>
             </div>
             <div class="navbar-login">
-            @auth
-                <!-- Logout Button -->
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
-            @else
-                <!-- Login Button -->
-                <a href="{{ route('login') }}" >Login</a>
-            @endauth
+                <a href="#login">Login</a>
             </div>
         </div>
+
+    <div class="section">
+        <!-- Main Content -->
         <div class="section-container">
             <h1>Our Menu</h1>
             <p class="section-description">Discover the best Filipino dishes that Tomasilog has to offer. From classic silogs to savory dishes, there's something for everyone!</p>
             <div class="product-container">
                 <!-- Product 1 -->
-                <div class="product-card">
-                    <div class="circle-container">
-                        <img src="/images/tapsilog.png" alt="Tapsilog">
-                    </div>
-                    <div class="product-details">
-                        <h3>Tapsilog</h3>
-                        <p>A dish that brings together tender marinated beef, garlic fried rice, and a perfectly fried egg.</p>
-                        <p class="product-price">₱79</p>
-                        <button class="buy-button">Order Now</button>
-                    </div>
+                <div class="row">
+                    @forelse ($menuItems as $item)
+                        <div class="col-md-4 mb-4">
+                            <div class="product-card">
+                                <div class="circle-container">
+                                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" style="width: 150px; height: 150px; object-fit: cover;">
+                                </div>
+                                <div class="product-details">
+                                    <h3>{{ $item->name }}</h3>
+                                    <p>{{ $item->description }}</p>
+                                    <p class="product-price">₱{{ number_format($item->price, 2) }}</p>
+                                    <button class="buy-button" onclick="addToSummary('{{ $item->name }}', {{ $item->price }})">Order</button>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-center">No menu items available.</p>
+                    @endforelse
                 </div>
-                <!-- Product 2 -->
-                <div class="product-card">
-                    <div class="circle-container">
-                        <img src="/images/caldereta.jpg" alt="Caldereta">
-                    </div>
-                    <div class="product-details">
-                        <h3>Caldereta</h3>
-                        <p>A hearty Filipino stew with tender beef, rich tomato sauce, and vibrant vegetables.</p>
-                        <p class="product-price">₱89</p>
-                        <button class="buy-button">Order Now</button>
-                    </div>
-                </div>
-                <!-- Product 3 -->
-                <div class="product-card">
-                    <div class="circle-container">
-                        <img src="/images/sinigang.jpg" alt="Sinigang">
-                    </div>
-                    <div class="product-details">
-                        <h3>Sinigang</h3>
-                        <p>A savory and sour tamarind-based soup with pork and assorted vegetables.</p>
-                        <p class="product-price">₱79</p>
-                        <button class="buy-button">Order Now</button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="circle-container">
-                        <img src="/images/sinigang.jpg" alt="Sinigang">
-                    </div>
-                    <div class="product-details">
-                        <h3>Sinigang</h3>
-                        <p>A savory and sour tamarind-based soup with pork and assorted vegetables.</p>
-                        <p class="product-price">₱79</p>
-                        <button class="buy-button">Order Now</button>
-                    </div>
-                </div>
-
-                <div class="product-card">
-                    <div class="circle-container">
-                        <img src="/images/sinigang.jpg" alt="Sinigang">
-                    </div>
-                    <div class="product-details">
-                        <h3>Sinigang</h3>
-                        <p>A savory and sour tamarind-based soup with pork and assorted vegetables.</p>
-                        <p class="product-price">₱79</p>
-                        <button class="buy-button">Order Now</button>
-                    </div>
-                </div>
-                <!-- Add more products as needed -->
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Order Summary -->
+        <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div id="order-items"></div>
+            <div class="total-price" id="total-price">Total: ₱0</div>
+            <a href="#checkout" class="checkout-btn">Checkout</a>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
     <footer class="py-5">
         <div class="container">
             <div class="row">
@@ -310,5 +314,24 @@
         </div>
     </footer>
     </div>
+
+    <script>
+        let total = 0;
+
+        function addToSummary(itemName, itemPrice) {
+            const orderItems = document.getElementById("order-items");
+            const totalPrice = document.getElementById("total-price");
+
+            // Add new item
+            const itemElement = document.createElement("div");
+            itemElement.className = "order-item";
+            itemElement.innerHTML = `<span>${itemName}</span><span>₱${itemPrice}</span>`;
+            orderItems.appendChild(itemElement);
+
+            // Update total
+            total += itemPrice;
+            totalPrice.textContent = `Total: ₱${total}`;
+        }
+    </script>
 </body>
 </html>

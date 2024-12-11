@@ -19,7 +19,7 @@
         <div class="navbar">
             <div class="navbar-logo">Tomasilog</div>
             <div class="navbar-links">
-                <a href="{{ route('welcome') }}">Dashboard</a>
+                <a href="{{ route('welcome') }}">Home</a>
                 <a href="{{ route('about') }}">About</a>
                 <a href="{{ route('menu') }}">Menu</a>
             </div>
@@ -162,33 +162,27 @@
         <h1>Our Specials</h1>
         <p class="section4-description">Explore our special selections that make your dining experience unforgettable.</p>
         <div class="product-container">
-            <div class="product-card">
-                <div class="circle-container">
-                    <img src="/images/tapsilog.png" alt="Product 1">
+        <div class="row">
+            @forelse ($menuItems as $item)
+                <div class="col-md-4 mb-4">
+                    <div class="product-card">
+                        <div class="circle-container">
+                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <div class="product-details">
+                            <h3>{{ $item->name }}</h3>
+                            <p>{{ $item->description }}</p>
+                            <p class="product-price">₱{{ number_format($item->price, 2) }}</p>
+                            <button class="buy-button" onclick="addToSummary('{{ $item->name }}', {{ $item->price }})">Order Now</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="product-details">
-                    <h3>Tapsilog</h3>
-                    <p>A dish that brings together tender, marinated beef (tapa), garlic fried rice (sinangag), and a perfectly fried egg (itlog).</p>
-                    <p class="product-price">₱79</p>
-                    <button class="buy-button">Order Now</button>
-                </div>
-            </div>
-            <div class="product-card">
-                <div class="circle-container">
-                    <img src="/images/caldereta.jpg" alt="Product 2">
-                </div>
-                <div class="product-details">
-                    <h3>Caldereta</h3>
-                    <p>Description of dish 2.</p>
-                    <p class="product-price">₱79</p>
-                    <button class="buy-button">Order Now</button>
-                </div>
-            </div>
-            
-            <!-- more product here -->
-        </div>
+            @empty
+                <p class="text-center">No menu items available.</p>
+            @endforelse
         </div>
     </div>
+</div>
     
     <!-- Section 5 -->
     <div class="section">
