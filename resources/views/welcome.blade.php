@@ -40,7 +40,7 @@
                         <a href="#explore" class="explore-btn">Explore</a>
                     </div>                </div>
             </div>
-            <img src="/images/dashboard.png" alt="Tiger" class="section1-image">
+            <img src="/images/home.png" alt="Tiger" class="section1-image">
         </div>
     </div>
 
@@ -187,7 +187,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-4 d-flex align-items-center justify-content-center">
-                        <img src="/images/dashboard.png" alt="Tomasilog Logo" style="max-width: 100px;">
+                        <img src="/images/home.png" alt="Tomasilog Logo" style="max-width: 100px;">
                     </div>
                     
                     <div class="col-md-4 text-center">
