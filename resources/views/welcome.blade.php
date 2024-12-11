@@ -24,7 +24,16 @@
                 <a href="{{ route('menu') }}">Menu</a>
             </div>
             <div class="navbar-login">
-                <a href="{{ route('login') }}">Login</a>
+            @auth
+                <!-- Logout Button -->
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button type="submit">Logout</button>
+                </form>
+            @else
+                <!-- Login Button -->
+                <a href="{{ route('login') }}" >Login</a>
+            @endauth
             </div>
         </div>
         <div class="section1-container">

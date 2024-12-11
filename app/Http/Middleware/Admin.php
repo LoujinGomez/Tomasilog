@@ -24,7 +24,7 @@ class Admin
             return $next($request);
         } elseif ($user->role === 'user') {
 
-            return redirect()->route('/');
+            return redirect()->route('welcome');
         }
     
 

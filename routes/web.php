@@ -2,14 +2,27 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Middleware\Admin;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
-Route::get('/', [PageController::class,'welcome'])->name('welcome');
+//Route::get('/', [PageController::class,'welcome'])->name('home');
 Route::get('/about', [PageController::class,'about'])->name('about');
 Route::get('/menu', [PageController::class,'menu'])->name('menu');
+
+Route::get('/login', [PageController::class, 'login'])->name('login');
+Route::get('/signup', [UserController::class, 'signup'])->name('signup');
+
+Route::post('/logout', function () {
+    Auth::logout();
+    Session::flush();
+    return redirect('/')->with('success', 'You have been logged out.');
+})->name('logout');
+
+
+
 
 
 
