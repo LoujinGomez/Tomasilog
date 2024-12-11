@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\OrderMenuController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\FoodMenuController;
+use App\Models\Order;
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,7 +18,7 @@ Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
 
 Route::get('/login', [PageController::class, 'login'])->name('login');
-Route::get('/signup', [UserController::class, 'signup'])->name('signup');
+
 
 Route::post('/logout', function () {
     Auth::logout();
@@ -30,7 +32,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified', 'isAdmin:admin'
 ])->group(function () {
-    Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [PageController::class, 'index'])->name('dashboard');
     Route::get('/admin_menu', [PageController::class, 'admin_menu'])->name('admin_menu');
     Route::get('/userprofile', [PageController::class, 'userprofile'])->name('userprofile');
 
@@ -45,8 +47,20 @@ Route::middleware([
     Route::delete('/food-menu/{id}/force-delete', [FoodMenuController::class, 'forceDelete'])->name('food_menu.force_delete');
     Route::get('/trashed', [FoodMenuController::class, 'trashed'])->name('trashFoodMenu');
     
+    Route::get('/admin/orders', [OrderMenuController::class, 'adminOrders'])->name('admin.orders');
+    Route::post('/admin/orders/{orderId}/update-status', [OrderMenuController::class, 'updateStatus'])->name('admin.orders.updateStatus');
 
-    
-    
-    
 });
+
+    // Routes for regular users
+    Route::middleware([
+        'auth:sanctum',
+        config('jetstream.auth_session'),
+        'verified', // Ensures the user is authenticated and verified
+        'isAdmin:user', // Ensures the user is a regular user
+    ])->group(function () {
+        Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
+        Route::post('/checkout', [OrderMenuController::class, 'checkout'])->name('checkout'); 
+        Route::get('/history', [OrderMenuController::class, 'history'])->name('user.history');
+    });
+        

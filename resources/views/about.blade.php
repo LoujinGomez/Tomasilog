@@ -188,8 +188,11 @@
         <div class="navbar-logo">Tomasilog</div>
         <div class="navbar-links">
             <a href="{{ route('welcome') }}">Home</a>
-            <a href="{{ route('about') }}">About</a>
+            <a >About</a>
             <a href="{{ route('menu') }}">Menu</a>
+            @auth
+                <a href="{{ route('user.history') }}">Order History</a>
+                @endauth
         </div>
         <div class="navbar-login">
             @auth

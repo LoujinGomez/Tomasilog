@@ -259,8 +259,8 @@
             <div class="navbar-links">
                 <a href="{{ route('welcome') }}">Home</a>
                 <a href="{{ route('about') }}">About</a>
-                <a>Menu</a>
-                <a href="{{ route('user.history') }}">Order History</a>
+                <a href="{{ route('menu') }}">Menu</a>
+                <a>Order History</a>
             </div>
             <div class="navbar-login">
             @auth
@@ -278,189 +278,39 @@
 
     <div class="section">
         <!-- Main Content -->
-        <div class="section-container">
-            <h1>Our Menu</h1>
-            <p class="section-description">Discover the best Filipino dishes that Tomasilog has to offer. From classic silogs to savory dishes, there's something for everyone!</p>
-            <div class="product-container">
-                <!-- Product 1 -->
-                <div class="row">
-                    @forelse ($menuItems as $item)
-                        <div class="col-md-4 mb-4">
-                            <div class="product-card">
-                                <div class="circle-container">
-                                    <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" style="width: 150px; height: 150px; object-fit: cover;">
-                                </div>
-                                <div class="product-details">
-                                    <h3>{{ $item->name }}</h3>
-                                    <p>{{ $item->description }}</p>
-                                    <p class="product-price">₱{{ number_format($item->price, 2) }}</p>
-                                    <button class="buy-button" onclick="addToSummary('{{ $item->name }}', {{ $item->price }})">Order</button>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <p class="text-center">No menu items available.</p>
-                    @endforelse
-                </div>
-            </div>
-        </div>
-
-        <!-- Order Summary -->
-        <div class="order-summary">
-    <h3>Order Summary</h3>
-    <div id="order-items">
-        <!-- Dynamic Order Items Will Appear Here -->
-    </div>
-    <div class="total-price" id="total-price">Total: ₱0</div>
-
-<a href="javascript:void(0);" class="checkout-btn" onclick="checkout()">Checkout</a>
-
-</div>
+        <div class="container mt-5">
+        <h1 class="mb-4">Order History</h1>
+        @if ($orders->isEmpty())
+            <p class="text-center">You have no order history yet.</p>
+        @else
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Total Price</th>
+                        <th>Status</th>
+                        <th>Summary</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($orders as $order)
+                        <tr>
+                            <td>{{ $order->id }}</td>
+                            <td>₱{{ number_format($order->total_price, 2) }}</td>
+                            <td>{{ $order->status }}</td>
+                            <td>{{ $order->summary }}</td>
+                            <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
     </div>
 
 
-    <!-- Footer -->
-    <footer class="py-5">
-        <div class="container">
-            <div class="row">
-                <!-- First Column: Logo -->
-                <div class="col-md-4 d-flex align-items-center justify-content-center">
-                    <img src="/images/home.png" alt="Tomasilog Logo" style="max-width: 100px;">
-                </div>
+  
 
-                <!-- Second Column: Social Media -->
-                <div class="col-md-4 text-center">
-                    <h5>Follow us on our social media</h5>
-                    <div class="d-flex justify-content-center gap-3 mt-3">
-                        <a href="https://www.instagram.com" target="_blank">
-                            <img src="/images/ig.png" alt="Instagram" class="social-icon">
-                        </a>
-                        <a href="https://www.facebook.com" target="_blank">
-                            <img src="/images/fb.png" alt="Facebook" class="social-icon">
-                        </a>
-                        <a href="https://www.tiktok.com" target="_blank">
-                            <img src="/images/tiktok.png" alt="Tiktok" class="social-icon">
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Third Column: Receive Updates -->
-                <div class="col-md-4">
-                    <h5>Keep updated?</h5>
-                    <form class="mt-3">
-                        <input type="email" class="form-control email-input" placeholder="Enter your email" aria-label="Email">
-                        <button type="submit" class="subscribe-btn">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </footer>
-    </div>
-
-    <script>
- let total = 0;
-const orderItems = {}; // Object to track items and their quantities
-
-function addToSummary(itemName, itemPrice) {
-    const orderItemsContainer = document.getElementById("order-items");
-    const totalPrice = document.getElementById("total-price");
-
-    // Check if the item is already in the summary
-    if (orderItems[itemName]) {
-        orderItems[itemName].quantity += 1;
-        document.getElementById(`${itemName}-quantity`).textContent = orderItems[itemName].quantity;
-    } else {
-        // Create new order item
-        orderItems[itemName] = { price: itemPrice, quantity: 1 };
-
-        const itemElement = document.createElement("div");
-        itemElement.className = "order-item";
-        itemElement.id = `${itemName}-item`;
-
-        itemElement.innerHTML = `
-            <span>${itemName}</span>
-            <span>
-                ₱${itemPrice} x 
-                <span id="${itemName}-quantity">1</span>
-            </span>
-            <div class="order-buttons">
-                <button class="btn btn-sm btn-primary" onclick="increaseItem('${itemName}', ${itemPrice})">+</button>
-                <button class="btn btn-sm btn-secondary" onclick="decreaseItem('${itemName}', ${itemPrice})">-</button>
-                <button class="btn btn-sm btn-danger" onclick="deleteItem('${itemName}')">Delete</button>
-            </div>
-        `;
-
-        orderItemsContainer.appendChild(itemElement);
-    }
-
-    // Update total
-    total += itemPrice;
-    totalPrice.textContent = `Total: ₱${total.toFixed(2)}`;
-}
-
-function increaseItem(itemName, itemPrice) {
-    orderItems[itemName].quantity += 1;
-    document.getElementById(`${itemName}-quantity`).textContent = orderItems[itemName].quantity;
-    total += itemPrice;
-    document.getElementById("total-price").textContent = `Total: ₱${total.toFixed(2)}`;
-}
-
-function decreaseItem(itemName, itemPrice) {
-    if (orderItems[itemName].quantity > 1) {
-        orderItems[itemName].quantity -= 1;
-        document.getElementById(`${itemName}-quantity`).textContent = orderItems[itemName].quantity;
-        total -= itemPrice;
-        document.getElementById("total-price").textContent = `Total: ₱${total.toFixed(2)}`;
-    } else {
-        // If quantity is zero, delete the item
-        deleteItem(itemName);
-    }
-}
-
-function deleteItem(itemName) {
-    const itemElement = document.getElementById(`${itemName}-item`);
-    total -= orderItems[itemName].price * orderItems[itemName].quantity;
-    delete orderItems[itemName];
-    itemElement.remove();
-    document.getElementById("total-price").textContent = `Total: ₱${total.toFixed(2)}`;
-}
-
-function checkout() {
-    // Prepare order items
-    const orderItemsArray = Object.keys(orderItems).map(itemName => ({
-        name: itemName,
-        price: orderItems[itemName].price,
-        quantity: orderItems[itemName].quantity,
-    }));
-
-    // Send data to the Laravel backend
-    fetch('/checkout', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-        },
-        body: JSON.stringify({
-            cart: orderItemsArray, // Cart items
-            total_price: total, // Total price
-        }),
-    })
-        .then(response => response.json())
-        .then(data => {
-            if (data.message) {
-                alert(data.message); // Show success message
-            }
-            // Clear the cart and reset the UI
-            document.getElementById('order-items').innerHTML = '';
-            document.getElementById('total-price').textContent = 'Total: ₱0';
-            total = 0; // Reset the total
-            window.location.reload();
-        })
-        .catch(error => console.error('Error:', error));
-}
-
-
-</script>
 
 </body>
 </html>

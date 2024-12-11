@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FoodMenu;
 use Illuminate\Http\Request;
+use App\Models\Order; 
 
 class FoodMenuController extends Controller
 {
@@ -45,10 +46,16 @@ class FoodMenuController extends Controller
      */
     public function index()
     {
-        $menuItems = FoodMenu::all(); // Fetch all menu items
-        return view('dashboard', compact('menuItems')); // Pass to the view
+        // Fetch all menu items
+        $menuItems = FoodMenu::all();
+    
+        // Fetch all orders with associated users
+        $orders = Order::with('user')->latest()->get();
+    
+        // Pass both variables to the view
+        return view('dashboard', compact('menuItems', 'orders'));
     }
-
+    
 
 
     public function update(Request $request, $id)
@@ -159,6 +166,14 @@ class FoodMenuController extends Controller
     }
 
     
+public function history()
+{
+    $user = auth()->user();
+    $orders = Order::where('user_id', $user->id)->with('orderItems')->get();
+    return view('user.history', compact('orders'));
+}
+
+
 
 }
 

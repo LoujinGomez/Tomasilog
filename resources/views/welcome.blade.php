@@ -19,9 +19,12 @@
         <div class="navbar">
             <div class="navbar-logo">Tomasilog</div>
             <div class="navbar-links">
-                <a href="{{ route('welcome') }}">Home</a>
+                <a >Home</a>
                 <a href="{{ route('about') }}">About</a>
                 <a href="{{ route('menu') }}">Menu</a>
+                @auth
+                <a href="{{ route('user.history') }}">Order History</a>
+                @endauth
             </div>
             <div class="navbar-login">
             @auth
@@ -156,34 +159,35 @@
     </div>
 
     
-    <!-- Section 4 -->
-    <div class="section">
-        <div class="section4-container">
+<!-- Section 4 -->
+<div class="section">
+    <div class="section4-container">
         <h1>Our Specials</h1>
         <p class="section4-description">Explore our special selections that make your dining experience unforgettable.</p>
         <div class="product-container">
-        <div class="row">
-            @forelse ($menuItems as $item)
-                <div class="col-md-4 mb-4">
-                    <div class="product-card">
-                        <div class="circle-container">
-                            <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" style="width: 150px; height: 150px; object-fit: cover;">
-                        </div>
-                        <div class="product-details">
-                            <h3>{{ $item->name }}</h3>
-                            <p>{{ $item->description }}</p>
-                            <p class="product-price">₱{{ number_format($item->price, 2) }}</p>
-                            <button class="buy-button" onclick="addToSummary('{{ $item->name }}', {{ $item->price }})">Order Now</button>
+            <div class="row g-4">
+                @forelse ($menuItems as $item)
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="product-card">
+                            <div class="circle-container">
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="{{ $item->name }}" class="img-fluid">
+                            </div>
+                            <div class="product-details">
+                                <h3>{{ $item->name }}</h3>
+                                <p>{{ $item->description }}</p>
+                                <p class="product-price">₱{{ number_format($item->price, 2) }}</p>
+                                <a href="{{ route('menu', ['item' => $item->name, 'price' => $item->price]) }}" class="buy-button">Order Now</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            @empty
-                <p class="text-center">No menu items available.</p>
-            @endforelse
+                @empty
+                    <p class="text-center">No menu items available.</p>
+                @endforelse
+            </div>
         </div>
     </div>
 </div>
-    
+
     <!-- Section 5 -->
     <div class="section">
         <footer class="py-5">
