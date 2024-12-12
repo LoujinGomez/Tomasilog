@@ -35,6 +35,6 @@ class Admin
         }
     
         // Forbidden response for other cases
-        return response()->view('forbidden', [], 403);
+        return abort(403);
     }
 }

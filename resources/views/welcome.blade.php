@@ -19,13 +19,18 @@
         <div class="navbar">
             <div class="navbar-logo">Tomasilog</div>
             <div class="navbar-links">
-                <a >Home</a>
-                <a href="{{ route('about') }}">About</a>
+                 <a>Home</a>
+                 <a href="{{ route('about') }}">About</a>
                 <a href="{{ route('menu') }}">Menu</a>
-                @auth
-                <a href="{{ route('user.history') }}">Order History</a>
+                 @auth
+                    <a href="{{ route('user.history') }}">Order History</a>
+
+                @can('admin')
+                    <a href="{{ route('dashboard') }}">ADMIN DASHBOARD</a>
+                @endcan
                 @endauth
             </div>
+
             <div class="navbar-login">
             @auth
                 <!-- Logout Button -->

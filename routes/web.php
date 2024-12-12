@@ -13,13 +13,8 @@ Route::get('/', function () {
 })->name('welcome');
 
 Route::get('/', [FoodMenuController::class, 'showMenuInWelcomePage'])->name('welcome');
-
 Route::get('/about', [PageController::class, 'about'])->name('about');
-Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
-
 Route::get('/login', [PageController::class, 'login'])->name('login');
-
-
 Route::post('/logout', function () {
     Auth::logout();
     Session::flush();
@@ -35,7 +30,8 @@ Route::middleware([
     Route::get('/dashboard', [PageController::class, 'index'])->name('dashboard');
     Route::get('/admin_menu', [PageController::class, 'admin_menu'])->name('admin_menu');
     Route::get('/userprofile', [PageController::class, 'userprofile'])->name('userprofile');
-
+    Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
+    
     // Food Menu Routes
     Route::get('/dashboard', [FoodMenuController::class, 'index'])->name('dashboard');
     Route::get('/create', [FoodMenuController::class, 'create'])->name('create');
@@ -56,8 +52,8 @@ Route::middleware([
     Route::middleware([
         'auth:sanctum',
         config('jetstream.auth_session'),
-        'verified', // Ensures the user is authenticated and verified
-        'isAdmin:user', // Ensures the user is a regular user
+        'verified', 
+ // Ensures the user is a regular user
     ])->group(function () {
         Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
         Route::post('/checkout', [OrderMenuController::class, 'checkout'])->name('checkout'); 
