@@ -58,5 +58,8 @@ Route::middleware([
         Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
         Route::post('/checkout', [OrderMenuController::class, 'checkout'])->name('checkout'); 
         Route::get('/history', [OrderMenuController::class, 'history'])->name('user.history');
+        Route::put('/orders/{order}/cancel', [OrderMenuController::class, 'cancelOrder'])->name('orders.cancel');
+
+
     });
         

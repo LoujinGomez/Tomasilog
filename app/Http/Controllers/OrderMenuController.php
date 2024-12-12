@@ -75,16 +75,30 @@ class OrderMenuController extends Controller
     return response()->json(['message' => 'Order placed successfully!', 'order' => $order], 200);
 }
 
-public function history()
+public function cancelOrder($orderId)
 {
-    // Get the authenticated user
+    $order = Order::where('id', $orderId)
+        ->where('user_id', auth()->id()) // Ensure the user owns the order
+        ->firstOrFail();
+
+    // Update the status to 'Cancelled'
+    $order->status = 'Cancelled';
+    $order->save();
+
+    return redirect()->back()->with('success', 'Order has been cancelled successfully.');
+}
+public function history()
+
+{
+
     $user = auth()->user();
 
-    // Fetch orders for this user only
-    $orders = Order::where('user_id', $user->id)->latest()->get();
+    // Fetch orders for the user, ordered by the latest first
+    $orders = Order::where('user_id', $user->id)
+        ->orderBy('created_at', 'desc') // Latest orders first
+        ->get();
 
-    // Pass the orders to the view
-    return view('history', compact('orders')); // Use 'history' instead of 'user.history'
+    return view('history', compact('orders'));
 }
 
 }

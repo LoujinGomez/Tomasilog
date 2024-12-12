@@ -171,31 +171,36 @@
 
 
             <div class="col-md-12 mt-5">
-    <div class="card">
-        <div class="card-header">Order History</div>
-        <div class="card-body">
-            <table class="table table-hover">
-                <thead>
+            <div class="card">
+    <div class="card-header">Order History</div>
+    <div class="card-body">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>User</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Summary</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($orders as $order)
                     <tr>
-                        <th>Order ID</th>
-                        <th>User</th>
-                        <th>Total Price</th>
-                        <th>Status</th>
-                        <th>Summary</th>
-                        <th>Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
-                        <tr>
-                            <td>{{ $order->id }}</td>
-                            <td>{{ $order->user->name }}</td>
-                            <td>₱{{ number_format($order->total_price, 2) }}</td>
-                            <td>{{ $order->status }}</td>
-                            <td>{{ $order->summary }}</td>
-                            <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
-                            <td>
+                        <td>{{ $order->id }}</td>
+                        <td>{{ $order->user->name }}</td>
+                        <td>₱{{ number_format($order->total_price, 2) }}</td>
+                        <td>{{ $order->status }}</td>
+                        <td>{{ $order->summary }}</td>
+                        <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>
+                            @if ($order->status === 'Cancelled')
+                                <!-- Display Cancelled Text -->
+                                <span class="text-danger font-weight-bold">Cancelled</span>
+                            @else
+                                <!-- Show Dropdown for Other Statuses -->
                                 <form action="{{ route('admin.orders.updateStatus', $order->id) }}" method="POST">
                                     @csrf
                                     <select name="status" onchange="this.form.submit()" class="form-select form-select-sm">
@@ -204,13 +209,16 @@
                                         <option value="Ready" {{ $order->status == 'Ready' ? 'selected' : '' }}>Ready</option>
                                     </select>
                                 </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
+</div>
+
+
 </div>
 
 

@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Faculty+Glyphic&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <style>
         body {
             font-family: "Faculty Glyphic", serif;
@@ -279,37 +281,77 @@
     <div class="section">
         <!-- Main Content -->
         <div class="container mt-5">
-        <h1 class="mb-4">Order History</h1>
-        @if ($orders->isEmpty())
-            <p class="text-center">You have no order history yet.</p>
-        @else
-            <table class="table table-hover">
-                <thead>
+    <h1 class="mb-4">Order History</h1>
+    @if ($orders->isEmpty())
+        <p class="text-center">You have no order history yet.</p>
+    @else
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Total Price</th>
+                    <th>Status</th>
+                    <th>Summary</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($orders as $order)
                     <tr>
-                        <th>Order ID</th>
-                        <th>Total Price</th>
-                        <th>Status</th>
-                        <th>Summary</th>
-                        <th>Date</th>
+                        <td>{{ $order->id }}</td>
+                        <td>₱{{ number_format($order->total_price, 2) }}</td>
+                        <td>{{ $order->status }}</td>
+                        <td>{{ $order->summary }}</td>
+                        <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
+                        <td>
+    @if ($order->status === 'Pending')
+        <form action="{{ route('orders.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this order?');">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="btn btn-danger btn-sm">Cancel</button>
+        </form>
+    @elseif ($order->status === 'Cancelled')
+        <span class="text-muted">Cancelled</span>
+    @else
+        <span class="text-muted">Cannot be cancelled</span>
+    @endif
+</td>
+
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach ($orders as $order)
-                        <tr>
-                            <td>{{ $order->id }}</td>
-                            <td>₱{{ number_format($order->total_price, 2) }}</td>
-                            <td>{{ $order->status }}</td>
-                            <td>{{ $order->summary }}</td>
-                            <td>{{ $order->created_at->format('Y-m-d H:i:s') }}</td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        @endif
-    </div>
+                @endforeach
+            </tbody>
+        </table>
+    @endif
+</div>
 
 
-  
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<script>
+    @if (session('success'))
+        Toastify({
+            text: "{{ session('success') }}",
+            duration: 3000,
+            gravity: "top", // `top` or `bottom`
+            position: "right", // `left`, `center` or `right`
+            backgroundColor: "#4CAF50",
+        }).showToast();
+    @endif
+
+    @if (session('error'))
+        Toastify({
+            text: "{{ session('error') }}",
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            backgroundColor: "#f44336", // Red for errors
+        }).showToast();
+    @endif
+</script>
 
 
 </body>
