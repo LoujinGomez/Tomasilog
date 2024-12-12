@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
@@ -46,5 +47,12 @@ class PageController extends Controller
 
     public function trashedFoodMenu(){
         return view('trashedFoodMenu');
+    }
+
+
+    public function show()
+    {
+        $user = Auth::user(); // Retrieve the authenticated user
+        return view('profile.userprofile', ['user' => $user]); // Pass it to the Blade view
     }
 }

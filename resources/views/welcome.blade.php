@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alternating Sections with Navbar</title>
+    <title>Tomasilog</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Faculty+Glyphic&display=swap" rel="stylesheet">
@@ -24,24 +24,24 @@
                 <a href="{{ route('menu') }}">Menu</a>
                  @auth
                     <a href="{{ route('user.history') }}">Order History</a>
-
-                @can('admin')
-                    <a href="{{ route('dashboard') }}">ADMIN DASHBOARD</a>
-                @endcan
                 @endauth
             </div>
 
             <div class="navbar-login">
-            @auth
-                <!-- Logout Button -->
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
-            @else
-                <!-- Login Button -->
-                <a href="{{ route('login') }}" >Login</a>
-            @endauth
+                @auth
+                    <!-- Dashboard Button -->
+                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+
+                    <!-- Logout Button -->
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                    </form>
+                @else
+                    <!-- Login Button -->
+                    <a href="{{ route('login') }}">Login</a>
+                @endauth
+
             </div>
         </div>
         <div class="section1-container">
@@ -53,8 +53,8 @@
                 <div class="section1-description">
                     <p>A premium Filipino dining experience, from silogs to desserts. We are just a click away when you crave for a delicious fast food.</p>
                     <div class="button-container">
-                        <a href="#menu" class="check-menu-btn">Check Menu</a>
-                        <a href="#explore" class="explore-btn">Explore</a>
+                        <a href="{{ route('menu') }}" class="check-menu-btn">Check Menu</a>
+                        <a href="{{ route('menu') }}" class="explore-btn">Explore</a>
                     </div>                </div>
             </div>
             <img src="/images/home.png" alt="Tiger" class="section1-image">

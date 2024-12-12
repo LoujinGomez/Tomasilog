@@ -38,6 +38,7 @@
     <div class="navbar">
         <div class="navbar-logo">Tomasilog</div>
         <div class="navbar-links d-flex">
+            <a href="{{ route('welcome') }}">Home</a>
     <a href="{{ route('dashboard') }}">Manage Menu</a>
     <a href="{{ route('trashFoodMenu') }}">Trash</a>
 </div>
@@ -47,7 +48,7 @@
             </a>
             <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                 @csrf
-                <button type="submit">Logout</button>
+                <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
             </form>
         </div>
     </div>
@@ -86,11 +87,11 @@
                                     <td>{{ $item->description }}</td>
                                     <td>₱{{ number_format($item->price, 2) }}</td>
                                     <td>
-                                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateModal{{ $item->id }}">Update</button>
+                                        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#updateModal{{ $item->id }}">Update</button>
                                         <form action="{{ route('food_menu.destroy', $item->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-warning btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-sm" style="background-color: red; color: white;">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
