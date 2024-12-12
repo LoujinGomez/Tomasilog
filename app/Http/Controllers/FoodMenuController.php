@@ -44,18 +44,17 @@ class FoodMenuController extends Controller
     /**
      * Display a listing of the food menu items.
      */
-    public function index()
-    {
-        // Fetch all menu items
-        $menuItems = FoodMenu::all();
-    
-        // Fetch all orders with associated users
-        $orders = Order::with('user')->latest()->get();
-    
-        // Pass both variables to the view
-        return view('dashboard', compact('menuItems', 'orders'));
-    }
-    
+   public function index()
+{
+    // Fetch paginated menu items (10 items per page)
+    $menuItems = FoodMenu::paginate(6);
+
+    // Fetch paginated orders with associated users (10 orders per page)
+    $orders = Order::with('user')->latest()->get();
+
+    // Pass both paginated variables to the view
+    return view('dashboard', compact('menuItems', 'orders'));
+}
 
 
     public function update(Request $request, $id)
@@ -74,9 +73,11 @@ class FoodMenuController extends Controller
         // Check if a new image is uploaded
         if ($request->hasFile('image')) {
             // Delete the old image if it exists
-            $oldImagePath = public_path('storage/' . $menuItem->image);
-            if (file_exists($oldImagePath)) {
-                unlink($oldImagePath); // Delete the file using unlink
+            if ($menuItem->image) {
+                $oldImagePath = public_path('storage/' . $menuItem->image);
+                if (file_exists($oldImagePath) && is_file($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
             }
 
             // Save the new image
@@ -86,7 +87,7 @@ class FoodMenuController extends Controller
 
         // Update other fields
         $menuItem->name = $validated['name'];
-        $menuItem->description = $validated['description'];
+        $menuItem->description = $validated['description'] ?? null;
         $menuItem->price = $validated['price'];
 
         // Save the changes
@@ -111,8 +112,8 @@ class FoodMenuController extends Controller
 
     public function trashed()
     {
-        // Retrieve only soft-deleted items
-        $trashedItems = FoodMenu::onlyTrashed()->get();
+        // Retrieve only soft-deleted items with pagination (10 items per page)
+        $trashedItems = FoodMenu::onlyTrashed()->paginate(3);
 
         return view('trashedFoodMenu', compact('trashedItems'));
     }
@@ -149,29 +150,29 @@ class FoodMenuController extends Controller
 
     public function showMenu()
     {
-        // Fetch all active (not trashed) food menu items
-        $menuItems = FoodMenu::all();
+        // Ensure pagination is set up correctly (10 items per page)
+        $menuItems = FoodMenu::paginate(6);
 
-        // Return the view and pass the menu items
+        // Return the view and pass the paginated menu items
         return view('menu', compact('menuItems'));
     }
 
     public function showMenuInWelcomePage()
     {
         // Fetch all active (not trashed) food menu items
-        $menuItems = FoodMenu::all();
+        $menuItems = FoodMenu::paginate(6);
 
         // Return the view and pass the menu items
         return view('welcome', compact('menuItems'));
     }
 
     
-public function history()
-{
-    $user = auth()->user();
-    $orders = Order::where('user_id', $user->id)->with('orderItems')->get();
-    return view('user.history', compact('orders'));
-}
+    public function history()
+    {
+        $user = auth()->user();
+        $orders = Order::where('user_id', $user->id)->with('orderItems')->get();
+        return view('user.history', compact('orders'));
+    }
 
 
 

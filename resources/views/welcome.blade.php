@@ -30,12 +30,12 @@
             <div class="navbar-login">
                 @auth
                     <!-- Dashboard Button -->
-                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" >Dashboard</a>
 
                     <!-- Logout Button -->
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                        <button type="submit" >Logout</button>
                     </form>
                 @else
                     <!-- Login Button -->

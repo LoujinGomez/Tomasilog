@@ -60,7 +60,7 @@ Route::middleware([
         'auth:sanctum',
         config('jetstream.auth_session'),
         'verified', 
- // Ensures the user is a regular user
+    // Ensures the user is a regular user
     ])->group(function () {
         Route::get('/menu', [FoodMenuController::class, 'showMenu'])->name('menu');
         Route::post('/checkout', [OrderMenuController::class, 'checkout'])->name('checkout'); 

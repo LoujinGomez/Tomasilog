@@ -29,30 +29,39 @@
         .navbar-logo {
             font-size: 1.5em;
             font-weight: bold;
+            margin-right: auto;
         }
         .navbar-links {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
         .navbar-links a {
             text-decoration: none;
             color: #333;
             font-size: 1em;
         }
-        .navbar-login a {
+        .navbar-login {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .navbar-login a, .navbar-login button {
             display: inline-block;
-            background-color: #DA8359; 
+            background-color: #DA8359;
             color: #fff;
             padding: 8px 15px;
             border-radius: 5px;
             text-decoration: none;
             font-size: 1em;
+            border: none;
         }
-        .navbar-login a:hover {
+        .navbar-login a:hover, .navbar-login button:hover {
             background-color: #ac6947;
         }
         .section {
-            padding: 50px;
+            padding: 30px;
             text-align: center;
             min-height: 300px;
         }
@@ -79,7 +88,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 50px;
             text-align: left;
         }
         .our-story-section img {
@@ -178,7 +186,90 @@
             margin-bottom: 15px; 
         }
 
+        @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: center;
+        }
 
+        .navbar-links {
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .our-story-section {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .our-story-section img {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .our-story-content {
+            width: 100%;
+            padding-left: 0;
+        }
+
+        .mission-vision-section {
+            padding: 20px;
+        }
+
+        .mission-vision-content {
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .mission-vision-content .col-md-6 {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        footer .row {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        footer .col-md-4 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        footer form {
+            flex-direction: column;
+            width: 100%;
+        }
+
+        footer .email-input {
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        footer .subscribe-btn {
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        h1, h2 {
+            font-size: 1.8em;
+        }
+
+        p {
+            font-size: 0.9em;
+        }
+
+        .navbar-logo {
+            font-size: 1.2em;
+        }
+
+        .navbar-links a, .navbar-login a {
+            font-size: 0.9em;
+        }
+    }
     </style>
 </head>
 <body>
@@ -188,21 +279,21 @@
         <div class="navbar-logo">Tomasilog</div>
         <div class="navbar-links">
             <a href="{{ route('welcome') }}">Home</a>
-            <a >About</a>
+            <a href="#">About</a>
             <a href="{{ route('menu') }}">Menu</a>
             @auth
                 <a href="{{ route('user.history') }}">Order History</a>
-                @endauth
+            @endauth
         </div>
             <div class="navbar-login">
                 @auth
                     <!-- Dashboard Button -->
-                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+                    <a href="{{ route('dashboard') }}">Dashboard</a>
 
                     <!-- Logout Button -->
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                        <button type="submit" >Logout</button>
                     </form>
                 @else
                     <!-- Login Button -->
@@ -211,7 +302,6 @@
 
             </div>
         </div>
-    </div>
 
     <!-- Section 2: Our Story -->
     <div class="section our-story-section">
@@ -227,7 +317,7 @@ Born in the vibrant, bustling environment of UST, Tomasilog is more than just a 
 
 Our commitment to serving only the best starts with our ingredients. We handpick fresh, high-quality produce, meats, and spices, ensuring that each dish is made with care and served with love. Every meal at Tomasilog is crafted to deliver the authentic Filipino taste you know and love, with a touch of Thomasian pride.
 
-At Tomasilog, we believe in more than just good food; we believe in creating a warm, welcoming space where everyone feels at home. Whether you’re grabbing a quick bite between classes, catching up with friends, or treating yourself to something special, Tomasilog is here to make your meal experience truly unforgettable.            </p>
+At Tomasilog, we believe in more than just good food; we believe in creating a warm, welcoming space where everyone feels at home. Whether you’re grabbing a quick bite between classes, catching up with friends, or treating yourself to something special, Tomasilog is here to make your meal experience truly unforgettable.</p>
         </div>
     </div>
 
@@ -253,8 +343,6 @@ At Tomasilog, we believe in more than just good food; we believe in creating a w
             </div>
         </div>
     </div>
-
-
 
     <!-- Footer -->
     <footer class="py-5">
@@ -293,6 +381,7 @@ At Tomasilog, we believe in more than just good food; we believe in creating a w
         </div>
     </footer>
 
+    </div>
     </div>
 
 </body>

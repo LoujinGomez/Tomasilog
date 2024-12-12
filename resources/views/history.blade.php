@@ -31,26 +31,35 @@
         .navbar-logo {
             font-size: 1.5em;
             font-weight: bold;
+            margin-right: auto;
         }
         .navbar-links {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
         .navbar-links a {
             text-decoration: none;
             color: #333;
             font-size: 1em;
         }
-        .navbar-login a {
+        .navbar-login {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .navbar-login a, .navbar-login button {
             display: inline-block;
-            background-color: #DA8359; 
+            background-color: #DA8359;
             color: #fff;
             padding: 8px 15px;
             border-radius: 5px;
             text-decoration: none;
             font-size: 1em;
+            border: none;
         }
-        .navbar-login a:hover {
+        .navbar-login a:hover, .navbar-login button:hover {
             background-color: #ac6947;
         }
         .sec {
@@ -59,19 +68,19 @@
             min-height: 300px;
         }
         .section {
-    padding: 50px;
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
-    gap: 30px; /* Add space between the menu and summary */
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-}
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            gap: 30px; /* Add space between the menu and summary */
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+        }
 
-.section-container {
-    flex: 2;
-    max-width: 70%; /* Limit the width */
-}
+        .section-container {
+            flex: 2;
+            max-width: 70%; /* Limit the width */
+        }
 
         .section-container h1 {
             margin-bottom: 10px;
@@ -251,6 +260,43 @@
             gap: 5px; /* Space between buttons */
         }
 
+        @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar-links {
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+            .table {
+                font-size: 0.8em;
+            }
+            .navbar-logo {
+                font-size: 1.2em;
+            }
+        }
+        @media (max-width: 480px) {
+            .navbar-logo {
+            font-size: 1.2em;
+        }
+
+        .navbar-links a, .navbar-login a {
+            font-size: 0.9em;
+        }
+            .table {
+                font-size: 0.75em;
+            }
+            .table th,
+            .table td {
+                padding: 5px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -267,12 +313,12 @@
             <div class="navbar-login">
                 @auth
                     <!-- Dashboard Button -->
-                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" >Dashboard</a>
 
                     <!-- Logout Button -->
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                        <button type="submit" >Logout</button>
                     </form>
                 @else
                     <!-- Login Button -->

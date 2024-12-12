@@ -4,7 +4,8 @@ body {
     font-weight: 400;
     font-style: normal;
     color: #54473f;
-    margin: 10;
+    margin: 0;
+    background-color: #fcfaee;
 }
 .navbar {
     display: flex;
@@ -16,17 +17,26 @@ body {
 .navbar-logo {
     font-size: 1.5em;
     font-weight: bold;
+    margin-right: auto;
 }
 .navbar-links {
     display: flex;
     gap: 20px;
+    align-items: center;
 }
 .navbar-links a {
     text-decoration: none;
     color: #333;
     font-size: 1em;
 }
-.navbar-login a {
+.navbar-login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+.navbar-login a,
+.navbar-login button {
     display: inline-block;
     background-color: #da8359;
     color: #fff;
@@ -34,10 +44,13 @@ body {
     border-radius: 5px;
     text-decoration: none;
     font-size: 1em;
+    border: none;
 }
-.navbar-login a:hover {
+.navbar-login a:hover,
+.navbar-login button:hover {
     background-color: #ac6947;
 }
+
 .section {
     padding: 50px;
     text-align: center;
@@ -324,6 +337,138 @@ footer .col-md-4 h5 {
     margin-bottom: 15px;
 }
 
+/* General Styles - Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    /* Navbar */
+    .navbar {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .navbar-links {
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+        justify-content: center;
+    }
+    /* Section Adjustments */
+    .section {
+        width: 100%;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .section1-container {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .section1-text {
+        text-align: center;
+    }
+
+    .section1-text h1 {
+        font-size: 5vw;
+    }
+
+    .section1-description p {
+        font-size: 0.9em;
+        width: 100%;
+    }
+
+    .button-container {
+        justify-content: center;
+    }
+
+    .section1-image {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    /* Image Container */
+    .image-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .image-item {
+        width: 90%;
+        max-width: 300px;
+    }
+
+    .circle-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    /* Product Card */
+    .product-card {
+        width: 100%;
+        max-width: 300px;
+        margin: 0 auto;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+    }
+
+    footer img.social-icon {
+        width: 30px;
+    }
+
+    footer h5 {
+        font-size: 1em;
+    }
+
+    footer .email-input {
+        width: calc(100% - 80px);
+    }
+
+    footer .subscribe-btn {
+        font-size: 0.9em;
+        padding: 6px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Navbar */
+    .navbar-logo {
+        font-size: 1.2em;
+    }
+
+    .navbar-links a,
+    .navbar-login button {
+        font-size: 0.9em;
+    }
+
+    /* Section Adjustments */
+    .section1-text h1 {
+        font-size: 4vw;
+    }
+
+    .section1-description p {
+        font-size: 0.8em;
+    }
+
+    .circle-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    /* Footer */
+    footer img.social-icon {
+        width: 25px;
+    }
+
+    footer h5 {
+        font-size: 0.9em;
+    }
+}
+
 /* LOGIN DESIGN PAGE */
 .login_body {
     background-color: #fcfaee;
@@ -422,6 +567,57 @@ form a.link:last-child {
     font-size: 14px;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        width: 90%; /* Make the container take up most of the screen */
+        padding: 15px 20px; /* Reduce padding for smaller screens */
+    }
+
+    .login-container h2 {
+        font-size: 20px; /* Adjust font size for the heading */
+    }
+
+    .form-group input {
+        width: 100%; /* Use full width for input fields */
+        padding: 8px; /* Reduce padding */
+        font-size: 13px; /* Adjust font size */
+    }
+
+    .btn {
+        width: 100%; /* Buttons take up full width */
+        font-size: 14px; /* Adjust font size for buttons */
+    }
+
+    .link {
+        font-size: 11px; /* Smaller font size for links */
+    }
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 10px 15px; /* Further reduce padding */
+    }
+
+    .login-container h2 {
+        font-size: 18px; /* Smaller heading font size */
+    }
+
+    .form-group input {
+        padding: 6px; /* Minimal padding for inputs */
+        font-size: 12px; /* Smaller input font size */
+    }
+
+    .btn {
+        padding: 10px; /* Compact button padding */
+        font-size: 12px; /* Smaller button font size */
+    }
+
+    .link {
+        font-size: 10px; /* Compact font size for links */
+    }
+}
+
 /* USER SIDE - DASHBOARD */
 .navbar {
     display: flex;
@@ -429,6 +625,7 @@ form a.link:last-child {
     align-items: center;
     padding: 10px 20px;
     background-color: #fcfaee;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
 }
 .navbar-logo {
     font-size: 1.5em;
@@ -458,8 +655,9 @@ form a.link:last-child {
 /* DASHBOARD-TABLE */
 
 .table {
-    width: 99%;
+    width: 100%; /* Ensure full width on smaller devices */
     background-color: #fcfaee;
+    font-size: 0.9em; /* Adjust font size for smaller screens */
 }
 
 .table.custom-table {
@@ -494,6 +692,79 @@ form a.link:last-child {
     font-weight: bold;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column; /* Stack navbar elements */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .navbar-links {
+        width: 100%; /* Make links take full width */
+        gap: 10px;
+    }
+
+    .navbar-profile {
+        margin-top: 10px; /* Add margin for spacing */
+        justify-content: flex-start; /* Align profile to the left */
+    }
+
+    .table {
+        font-size: 0.8em; /* Adjust font size for smaller screens */
+    }
+
+    .table.custom-table thead {
+        display: none; /* Hide table header on smaller screens */
+    }
+
+    .table.custom-table tbody td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .table.custom-table tbody tr {
+        display: block; /* Make rows stack */
+        margin-bottom: 15px; /* Add space between rows */
+        border: 1px solid #ecdfcc; /* Add border for clarity */
+        border-radius: 5px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .table.custom-table tbody td::before {
+        content: attr(data-label); /* Add data-label attribute for context */
+        flex: 1;
+        font-weight: bold;
+        text-align: left;
+        color: #333;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        font-size: 1.2em;
+    }
+
+    .navbar-links a {
+        font-size: 0.9em;
+    }
+
+    .table {
+        font-size: 0.75em;
+    }
+
+    .table.custom-table tbody td {
+        flex-direction: column; /* Stack data in each cell */
+        align-items: flex-start; /* Align items to the left */
+    }
+
+    .table.custom-table tbody td::before {
+        margin-bottom: 5px; /* Add spacing between label and value */
+    }
+}
+
 /* USER PROFILE */
 body.profile_css {
     font-family: Arial, sans-serif;
@@ -503,6 +774,7 @@ body.profile_css {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    margin: 0; /* Add margin reset for better layout consistency */
 }
 
 .back-btn {
@@ -613,38 +885,187 @@ body.profile_css {
     background: #ac6947;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+    .profile-container {
+        width: 95%;
+        padding: 15px; /* Reduce padding for smaller screens */
+    }
+
+    .profile-pic {
+        width: 80px;
+        height: 80px; /* Smaller profile picture */
+    }
+
+    .user-name {
+        font-size: 1.3em; /* Adjust font size */
+    }
+
+    .edit-profile-btn {
+        font-size: 0.9em; /* Adjust button font size */
+        padding: 8px 12px;
+    }
+
+    .profile-details h3 {
+        font-size: 1.2em; /* Adjust font size for details heading */
+    }
+
+    .info-group label {
+        font-size: 0.9em; /* Adjust font size for labels */
+    }
+
+    .info-group input,
+    .info-group textarea {
+        padding: 8px; /* Reduce padding for inputs and textarea */
+        font-size: 0.9em;
+    }
+
+    .save-changes-btn {
+        font-size: 0.9em;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-pic {
+        width: 60px;
+        height: 60px; /* Further reduce profile picture size */
+    }
+
+    .user-name {
+        font-size: 1.2em; /* Adjust for smaller screens */
+    }
+
+    .edit-profile-btn {
+        font-size: 0.8em;
+        padding: 6px 10px; /* Compact button padding */
+    }
+
+    .info-group label {
+        font-size: 0.8em; /* Smaller label font size */
+    }
+
+    .info-group input,
+    .info-group textarea {
+        padding: 6px;
+        font-size: 0.8em; /* Smaller input font size */
+    }
+
+    .save-changes-btn {
+        font-size: 0.8em;
+        padding: 6px 8px; /* Compact save button padding */
+    }
+}
+
 /* ADMIN-MENU */
 .card-header {
     font-weight: bold;
     background-color: #da8359;
     color: #fff;
+    text-align: center; /* Center align header text */
+    padding: 10px;
 }
 
 .btn-outline-primary {
-    size: 10px;
+    font-size: 14px;
     color: white;
+    padding: 5px 10px; /* Adjust padding for buttons */
 }
+
 .btn-outline-secondary:hover {
     background-color: #ac6947;
     color: white;
 }
+
 .file-upload-label {
     display: inline-block;
     text-align: center;
+    font-size: 14px; /* Ensure label is readable */
 }
+
 #imagePreview img {
     border: 1px solid #ddd;
     border-radius: 5px;
+    max-width: 100%; /* Ensure images fit within the container */
+    height: auto; /* Maintain aspect ratio */
 }
 
 .custom-btn-size {
     color: white;
-    padding: 3px 15px; /* Reduce padding for smaller button size */
-    font-size: 12px; /* Reduce font size */
+    padding: 5px 15px; /* Adjust padding for usability */
+    font-size: 14px; /* Standard font size for buttons */
 }
 
 .admin-body {
-    background-color: #fcfaee; /* sa baba ng section */
-    color: #54473f; /* Text color */
+    background-color: #fcfaee;
+    color: #54473f;
     font-family: "Faculty Glyphic", serif;
+    padding: 20px; /* Add padding for consistent spacing */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Card Header */
+    .card-header {
+        font-size: 16px; /* Reduce font size for smaller screens */
+        padding: 8px;
+    }
+
+    /* Buttons */
+    .btn-outline-primary,
+    .btn-outline-secondary {
+        font-size: 12px; /* Adjust button font size */
+        padding: 5px 8px; /* Compact button padding */
+    }
+
+    .custom-btn-size {
+        font-size: 12px; /* Reduce font size for smaller buttons */
+        padding: 4px 10px; /* Compact padding */
+    }
+
+    /* Image Preview */
+    #imagePreview img {
+        max-width: 100%; /* Ensure images are responsive */
+        height: auto;
+    }
+
+    /* File Upload Label */
+    .file-upload-label {
+        font-size: 12px; /* Smaller label font size */
+    }
+
+    /* Admin Body */
+    .admin-body {
+        padding: 15px; /* Reduce padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    /* Card Header */
+    .card-header {
+        font-size: 14px; /* Further reduce font size */
+        padding: 6px;
+    }
+
+    /* Buttons */
+    .btn-outline-primary,
+    .btn-outline-secondary {
+        font-size: 10px;
+        padding: 4px 6px;
+    }
+
+    .custom-btn-size {
+        font-size: 10px; /* Compact button font size */
+        padding: 3px 8px;
+    }
+
+    /* File Upload Label */
+    .file-upload-label {
+        font-size: 10px; /* Compact label font size */
+    }
+
+    /* Admin Body */
+    .admin-body {
+        padding: 10px; /* Minimal padding for small devices */
+    }
 }

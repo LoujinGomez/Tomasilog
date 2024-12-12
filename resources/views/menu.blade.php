@@ -26,29 +26,44 @@
             padding: 10px 20px;
             background-color: #FCFAEE;
         }
+
+        .pagination-container {
+            margin-top: 50px; /* Add space above */
+            margin-bottom: 30px; /* Add space below */
+        }
+
         .navbar-logo {
             font-size: 1.5em;
             font-weight: bold;
+            margin-right: auto;
         }
         .navbar-links {
             display: flex;
             gap: 20px;
+            align-items: center;
         }
         .navbar-links a {
             text-decoration: none;
             color: #333;
             font-size: 1em;
         }
-        .navbar-login a {
+        .navbar-login {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+        .navbar-login a, .navbar-login button {
             display: inline-block;
-            background-color: #DA8359; 
+            background-color: #DA8359;
             color: #fff;
             padding: 8px 15px;
             border-radius: 5px;
             text-decoration: none;
             font-size: 1em;
+            border: none;
         }
-        .navbar-login a:hover {
+        .navbar-login a:hover, .navbar-login button:hover {
             background-color: #ac6947;
         }
         .sec {
@@ -57,19 +72,19 @@
             min-height: 300px;
         }
         .section {
-    padding: 50px;
-    display: flex;
-    flex-wrap: wrap; /* Allow wrapping for smaller screens */
-    gap: 30px; /* Add space between the menu and summary */
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-}
+            padding: 50px;
+            display: flex;
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            gap: 30px; /* Add space between the menu and summary */
+            justify-content: center;
+            align-items: flex-start;
+            text-align: left;
+        }
 
-.section-container {
-    flex: 2;
-    max-width: 70%; /* Limit the width */
-}
+        .section-container {
+            flex: 2;
+            max-width: 70%; /* Limit the width */
+        }
 
         .section-container h1 {
             margin-bottom: 10px;
@@ -223,32 +238,73 @@
         }
 
         .order-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
-.order-item span:first-child {
-    flex: 2; /* Item name */
-    text-align: left;
-}
+        .order-item span:first-child {
+            flex: 2; /* Item name */
+            text-align: left;
+        }
 
-.order-item span:nth-child(2) {
-    flex: 1; /* Price and quantity */
-    text-align: center;
-}
+        .order-item span:nth-child(2) {
+            flex: 1; /* Price and quantity */
+            text-align: center;
+        }
 
-.order-item button {
-    flex: 0; /* Buttons take up minimal space */
-    margin: 0 2px;
-}
+        .order-item button {
+            flex: 0; /* Buttons take up minimal space */
+            margin: 0 2px;
+        }
 
-.order-buttons {
-    display: flex;
-    gap: 5px; /* Space between buttons */
-}
+        .order-buttons {
+            display: flex;
+            gap: 5px; /* Space between buttons */
+        }
 
+        @media (max-width: 768px) {
+            .navbar {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .navbar-links {
+            flex-wrap: wrap;
+            gap: 10px;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .section-container {
+            max-width: 90%;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            width: 100%;
+        }
+
+        .order-summary {
+            max-width: 100%;
+            margin-top: 20px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .navbar-logo {
+            font-size: 1.2em;
+        }
+
+        .navbar-links a, .navbar-login a {
+            font-size: 0.9em;
+        }
+
+        .checkout-btn {
+            font-size: 0.9em;
+        }
+    }
     </style>
 </head>
 <body>
@@ -265,12 +321,12 @@
             <div class="navbar-login">
                 @auth
                     <!-- Dashboard Button -->
-                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+                    <a href="{{ route('dashboard') }}" >Dashboard</a>
 
                     <!-- Logout Button -->
                     <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                        <button type="submit" >Logout</button>
                     </form>
                 @else
                     <!-- Login Button -->
@@ -307,7 +363,13 @@
                     @endforelse
                 </div>
             </div>
+
+                <div class="d-flex justify-content-center mt-3 pagination-container">
+                    {{ $menuItems->links('pagination::simple-bootstrap-4') }}
+                </div>
         </div>
+
+        
 
         <!-- Order Summary -->
         <div class="order-summary">
@@ -400,7 +462,12 @@ function addToSummary(itemName, itemPrice) {
     // Update total
     total += itemPrice;
     totalPrice.textContent = `Total: ₱${total.toFixed(2)}`;
+
+    // Save the updated orderItems to localStorage
+    localStorage.setItem('orderItems', JSON.stringify(orderItems));
+    localStorage.setItem('total', total);
 }
+
 
 function increaseItem(itemName, itemPrice) {
     orderItems[itemName].quantity += 1;
@@ -428,6 +495,22 @@ function deleteItem(itemName) {
     itemElement.remove();
     document.getElementById("total-price").textContent = `Total: ₱${total.toFixed(2)}`;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedOrderItems = JSON.parse(localStorage.getItem('orderItems'));
+    const savedTotal = localStorage.getItem('total');
+
+    if (savedOrderItems && savedTotal) {
+        for (const itemName in savedOrderItems) {
+            const { price, quantity } = savedOrderItems[itemName];
+            for (let i = 0; i < quantity; i++) {
+                addToSummary(itemName, price);
+            }
+        }
+        total = parseFloat(savedTotal);
+        document.getElementById("total-price").textContent = `Total: ₱${total.toFixed(2)}`;
+    }
+});
 
 function checkout() {
     // Prepare order items
@@ -458,6 +541,12 @@ function checkout() {
             document.getElementById('order-items').innerHTML = '';
             document.getElementById('total-price').textContent = 'Total: ₱0';
             total = 0; // Reset the total
+
+            // Clear localStorage
+            localStorage.removeItem('orderItems');
+            localStorage.removeItem('total');
+
+            // Optionally, reload the page or redirect
             window.location.reload();
         })
         .catch(error => console.error('Error:', error));
