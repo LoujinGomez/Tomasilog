@@ -263,16 +263,20 @@
                 <a href="{{ route('user.history') }}">Order History</a>
             </div>
             <div class="navbar-login">
-            @auth
-                <!-- Logout Button -->
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
-            @else
-                <!-- Login Button -->
-                <a href="{{ route('login') }}" >Login</a>
-            @endauth
+                @auth
+                    <!-- Dashboard Button -->
+                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+
+                    <!-- Logout Button -->
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                    </form>
+                @else
+                    <!-- Login Button -->
+                    <a href="{{ route('login') }}">Login</a>
+                @endauth
+
             </div>
         </div>
 

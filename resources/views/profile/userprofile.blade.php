@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,37 +16,35 @@
 </head>
 
 <style>
-        /* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-    </style>
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+</style>
 <body class="profile_css">
     <div class="profile-container">
         <div class="profile-header">
-        <button class="back-btn" onclick="window.history.back();">&#8592;</button>
-            <img src="profile-placeholder.png" alt="Profile Picture" class="profile-pic">
-            <h2 class="user-name">John Doe</h2>
-            <button class="edit-profile-btn">Edit Profile</button>
+            <button class="back-btn" onclick="window.history.back();">&#8592;</button>
+            <img src="{{ $user->profile_photo_url }}" alt="Profile Picture" class="profile-pic">
+            <h2 class="user-name">{{ $user->name }}</h2>
+            <button class="edit-profile-btn" onclick="window.location.href='{{ route('profile.show') }}'">Edit Profile</button>
         </div>
 
         <div class="profile-details">
             <div class="info-group">
                 <label for="username">Name:</label>
-                <input type="text" id="username" value="johndoe" disabled>
+                <input type="text" id="username" value="{{ $user->name }}" disabled>
             </div>
             <div class="info-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" value="john.doe@example.com" disabled>
+                <input type="email" id="email" value="{{ $user->email }}" disabled>
             </div>
             <div class="info-group">
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" value="+1234567890" disabled>
+                <label for="role">Role:</label>
+                <input type="text" id="role" value="{{ $user->role }}" disabled>
             </div>
-            <button class="save-changes-btn">Save Changes</button>
         </div>
     </div>
 </body>

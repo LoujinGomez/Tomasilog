@@ -223,31 +223,31 @@
         }
 
         .order-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
 
-.order-item span:first-child {
-    flex: 2; /* Item name */
-    text-align: left;
-}
+        .order-item span:first-child {
+            flex: 2; /* Item name */
+            text-align: left;
+        }
 
-.order-item span:nth-child(2) {
-    flex: 1; /* Price and quantity */
-    text-align: center;
-}
+        .order-item span:nth-child(2) {
+            flex: 1; /* Price and quantity */
+            text-align: center;
+        }
 
-.order-item button {
-    flex: 0; /* Buttons take up minimal space */
-    margin: 0 2px;
-}
+        .order-item button {
+            flex: 0; /* Buttons take up minimal space */
+            margin: 0 2px;
+        }
 
-.order-buttons {
-    display: flex;
-    gap: 5px; /* Space between buttons */
-}
+        .order-buttons {
+            display: flex;
+            gap: 5px; /* Space between buttons */
+        }
 
     </style>
 </head>
@@ -263,16 +263,20 @@
                 <a>Order History</a>
             </div>
             <div class="navbar-login">
-            @auth
-                <!-- Logout Button -->
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <button type="submit">Logout</button>
-                </form>
-            @else
-                <!-- Login Button -->
-                <a href="{{ route('login') }}" >Login</a>
-            @endauth
+                @auth
+                    <!-- Dashboard Button -->
+                    <a href="{{ route('dashboard') }}" style="background-color: blue; color: white;">Dashboard</a>
+
+                    <!-- Logout Button -->
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                        @csrf
+                        <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+                    </form>
+                @else
+                    <!-- Login Button -->
+                    <a href="{{ route('login') }}">Login</a>
+                @endauth
+
             </div>
         </div>
 

@@ -12,6 +12,13 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome');
 
+
+Route::get('/profile', function () {
+    $user = User::find(Auth::id()); // Assuming you have user authentication in place
+    return view('profile', ['user' => $user]);
+})->middleware('auth'); // Protect the route with authentication middleware
+
+
 Route::get('/', [FoodMenuController::class, 'showMenuInWelcomePage'])->name('welcome');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/login', [PageController::class, 'login'])->name('login');

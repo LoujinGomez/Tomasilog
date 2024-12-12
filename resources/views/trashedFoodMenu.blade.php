@@ -18,6 +18,7 @@
     <div class="navbar">
         <div class="navbar-logo">Tomasilog</div>
         <div class="navbar-links d-flex">
+            <a href="{{ route('welcome') }}">Home</a>
             <a href="{{ route('dashboard') }}">Manage Menu</a>
             <a href="{{ route('trashFoodMenu') }}">Trash</a>
         </div>
@@ -25,6 +26,10 @@
             <a href="{{ route('userprofile') }}">
                 <i class="fas fa-user" style="color: #da8359; font-size: 1.5rem;"></i>
             </a>
+            <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+                @csrf
+                <button type="submit" style="background-color: red; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">Logout</button>
+            </form>
         </div>
     </div>
 
@@ -74,7 +79,7 @@
                                         onsubmit="return confirm('Are you sure you want to permanently delete this product?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm">Delete Permanently</button>
+                                            <button type="submit" class="btn btn-sm" style="background-color: red; color: white;">Delete Permanently</button>
                                         </form>
                                     </td>
                                 </tr>
